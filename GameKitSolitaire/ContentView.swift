@@ -6,19 +6,25 @@
 //
 
 import SwiftUI
+import GameKit
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack{
+            VStack {
+                Text("Card Games").font(.system(size: 32))
+                Spacer()
+                NavigationLink("Play Solitaire", destination: SolitaireView())
+                Spacer()
+            }
+            .padding()
         }
-        .padding()
     }
 }
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+            .previewInterfaceOrientation(.landscapeLeft)
+    }
 }
