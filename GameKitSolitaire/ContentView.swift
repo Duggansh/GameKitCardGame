@@ -25,6 +25,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(GameState()) // Initialize and pass the environment object
             .previewInterfaceOrientation(.landscapeLeft)
     }
 }
