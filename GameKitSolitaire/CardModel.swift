@@ -26,16 +26,35 @@ class deck {
     
     init() {
         populate()
+        for _ in 1...10 {
+            shuffle()
+        }
+    }
+    
+    init(cards: [card]){
+        cardPile = cards
         shuffle()
     }
     
     func populate(){
-        for count in 1...2{
+        for count in 1...13{
             cardPile.append(card(suit: "clubs", rank: count, shown: false, model: "clubs_\(count)" ))
             cardPile.append(card(suit: "hearts", rank: count, shown: false, model: "hearts_\(count)"))
             cardPile.append(card(suit: "diamonds", rank: count, shown: false, model: "diamonds_\(count)"))
             cardPile.append(card(suit: "spades", rank: count, shown: false, model: "spades_\(count)"))
         }
+    }
+    
+    func deal(PlayerCount: Int, cardCount: Int) -> [deck]{
+        var deckList: [deck] = []
+        for _ in (1...PlayerCount){
+            var tempDeck: [card] = []
+            for _ in (1...cardCount){
+                tempDeck.append(draw()!)
+            }
+            deckList.append(deck(cards: tempDeck))
+        }
+        return deckList
     }
     
     func shuffle() {

@@ -14,7 +14,7 @@ struct ContentView: View {
             VStack {
                 Text("Card Games").font(.system(size: 32))
                 Spacer()
-                NavigationLink("Play Solitaire", destination: SolitaireView())
+                NavigationLink("Play War", destination: WarView())
                 Spacer()
             }
             .padding()

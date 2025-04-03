@@ -17,37 +17,76 @@ struct SolitaireView: View {
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
-            HStack{
-                if let currentCard = gameState.currentCard{
-                    Image(currentCard.model)
-                        .resizable()
+            VStack {
+                HStack{
+                        Image("clubs_1").resizable()
+                            .scaledToFit()
+                            .scaleEffect(0.5)
+                    
+                    Image("back05").resizable()
+                        .scaledToFit()
+                        .scaleEffect(0.5)
+                    Image("back05").resizable()
+                        .scaledToFit()
+                        .scaleEffect(0.5)
+                    Image("back05").resizable()
+                        .scaledToFit()
+                        .scaleEffect(0.5)
+                    Image("back05").resizable()
+                        .scaledToFit()
+                        .scaleEffect(0.5)
+                    Image("back05").resizable()
+                        .scaledToFit()
+                        .scaleEffect(0.5)
+                    Image("back05").resizable()
+                        .scaledToFit()
+                        .scaleEffect(0.5)
+                } .padding(50)
+                HStack{
+                    Image("back07").resizable()
                         .scaledToFit()
                         .scaleEffect(0.3)
-                } else {
-                    Image("")
-                        .resizable()
+                    Image("back07").resizable()
                         .scaledToFit()
                         .scaleEffect(0.3)
-                }
-                // The card image positioned at the bottom-right
-                Image(cardDeck.endofDeck ? "refresh" :"back05")
-                    .resizable()
-                    .scaledToFit()
-                    .scaleEffect(0.3)
-                    .frame(width: .infinity, height: .infinity, alignment: .bottomTrailing)
-                    .onTapGesture {
-                        if cardDeck.cardPile.count > 0{
-                            gameState.currentCard = cardDeck.draw()
-                            if cardDeck.cardPile.count == 0{
-                                cardDeck.endofDeck = true
-                            }
-                        } else {
-                            cardDeck.cardPile = cardDeck.drawnCards
-                            gameState.currentCard = nil
-                            cardDeck.endofDeck = false
-                        }
+                    Image("back07").resizable()
+                        .scaledToFit()
+                        .scaleEffect(0.3)
+                    Image("back07").resizable()
+                        .scaledToFit()
+                        .scaleEffect(0.3)
+                    Spacer()
+                    if let currentCard = gameState.currentCard{
+                        Image(currentCard.model)
+                            .resizable()
+                            .scaledToFit()
+                            .scaleEffect(0.3)
+                    } else {
+                        Image("")
+                            .resizable()
+                            .scaledToFit()
+                            .scaleEffect(0.3)
                     }
-                        
+                   
+                    // The card image positioned at the bottom-right
+                    Image(cardDeck.endofDeck ? "refresh" :"back05")
+                        .resizable()
+                        .scaledToFit()
+                        .scaleEffect(0.3)
+                        .frame(width: .infinity, height: .infinity, alignment: .bottomTrailing)
+                        .onTapGesture {
+                            if cardDeck.cardPile.count > 0{
+                                gameState.currentCard = cardDeck.draw()
+                                if cardDeck.cardPile.count == 0{
+                                    cardDeck.endofDeck = true
+                                }
+                            } else {
+                                cardDeck.cardPile = cardDeck.drawnCards
+                                gameState.currentCard = nil
+                                cardDeck.endofDeck = false
+                            }
+                        }
+                }
             }
         }
     }
