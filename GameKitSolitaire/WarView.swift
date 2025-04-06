@@ -1,11 +1,8 @@
 import SwiftUI
 
-func moveCards(moveTo: WarGame.drawOutcome) {
-    // Handle the outcome of the game here if necessary
-}
-
 struct WarView: View {
     @EnvironmentObject var warGame: WarGame
+    @Environment(\.dismiss) private var dismiss // Use dismiss for NavigationStack
     @State private var cardPosition: CGFloat = 0 // Position of the cards (0 = center, negative = top, positive = bottom)
     @State private var isAnimating = false // To track whether the animation is in progress
     @State private var flipComplete = false // To track whether the card flip is complete
@@ -58,7 +55,6 @@ struct WarView: View {
                                 if warGame.playerTwoDeck.cardPile.count > 0 {
                                     warGame.p2Card = warGame.playerTwoDeck.draw()!
                                     let outcome = warGame.compareCards()
-                                    moveCards(moveTo: outcome)
                                     
                                     // Immediately show the image and start the flip
                                     flipComplete = false
@@ -134,6 +130,21 @@ struct WarView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true) // Hide the default back button
+        .navigationBarItems(leading:
+            Button(action: {
+                dismiss() // Use dismiss() method from Environment to pop the view
+            }) {
+                HStack {
+                    Image(systemName: "arrow.left.circle.fill") // Custom back icon
+                        .font(.title)
+                        .foregroundColor(.white)
+                    Text("Back")
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                }
+            }
+        )
     }
 }
 

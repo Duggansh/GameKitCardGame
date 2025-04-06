@@ -10,14 +10,52 @@ import GameKit
 
 struct ContentView: View {
     var body: some View {
-        NavigationStack{
-            VStack {
-                Text("Card Games").font(.system(size: 32))
-                Spacer()
-                NavigationLink("Play War", destination: WarView().environmentObject(WarGame()))
-                Spacer()
+        NavigationStack {
+            ZStack {
+                // Background Image
+                Image("title_screen")
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                
+                // Overlay to darken the background image slightly for better text visibility
+                Color.black.opacity(0.4)
+                    .ignoresSafeArea()
+                
+                VStack {
+                    // Title Text
+                    Text("Card Games")
+                        .font(.system(size: 44, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                        .shadow(radius: 10)
+                        .padding(.top, 50) // Add some padding from the top
+
+                    Spacer()
+                    
+                    // Play War Button
+                    NavigationLink(destination: WarView().environmentObject(WarGame())) {
+                        Text("Play War")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.red, Color.black]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .cornerRadius(12)
+                            .shadow(radius: 10)
+                            .padding(.horizontal, 30)
+                    }
+                    
+                    Spacer()
+                }
+                .padding()
             }
-            .padding()
         }
     }
 }
