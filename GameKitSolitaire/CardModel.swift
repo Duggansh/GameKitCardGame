@@ -14,10 +14,6 @@ struct card{
     var model: String
 }
 
-class GameState: ObservableObject {
-    @Published var currentCard: card?
-}
-
 class deck {
     
     @Published var cardPile: [card] = []

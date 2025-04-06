@@ -25,7 +25,7 @@ class WarGame: ObservableObject{
     init(){
         let deck: deck = deck()
         deck.populate()
-        let playerDecks = deck.deal(PlayerCount: 2, cardCount: 26)
+        let playerDecks = deck.deal(PlayerCount: 2, cardCount: 2)
         playerOneDeck = playerDecks[0]
         playerTwoDeck = playerDecks[1]
         centerString = ""
