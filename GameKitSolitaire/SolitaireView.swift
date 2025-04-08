@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SolitaireView: View {
     @EnvironmentObject var solitaireGame: SolitaireGame
+    @State var cardClicked: Bool
+    @State var selectedCard: card?
     
     var body: some View {
         ZStack {
@@ -17,65 +19,118 @@ struct SolitaireView: View {
                 .scaledToFill()
                 .ignoresSafeArea()
             VStack {
-                HStack{
-                    Image(solitaireGame.piles[0].isEmpty ? "": solitaireGame.piles[0][0].model).resizable()
+                HStack {
+                    ForEach(0..<7) { index in
+                        Image(solitaireGame.piles[index].isEmpty ? "" : solitaireGame.piles[index][0].model)
+                            .resizable()
                             .scaledToFit()
-                            .scaleEffect(0.5)
-                    
-                    Image(solitaireGame.piles[1].isEmpty ? "": solitaireGame.piles[1][0].model).resizable()
-                        .scaledToFit()
-                        .scaleEffect(0.5)
-                    Image(solitaireGame.piles[2].isEmpty ? "":solitaireGame.piles[2][0].model).resizable()
-                        .scaledToFit()
-                        .scaleEffect(0.5)
-                    Image(solitaireGame.piles[3].isEmpty ? "":solitaireGame.piles[3][0].model).resizable()
-                        .scaledToFit()
-                        .scaleEffect(0.5)
-                    Image(solitaireGame.piles[4].isEmpty ? "":solitaireGame.piles[4][0].model).resizable()
-                        .scaledToFit()
-                        .scaleEffect(0.5)
-                    Image(solitaireGame.piles[5].isEmpty ? "":solitaireGame.piles[5][0].model).resizable()
-                        .scaledToFit()
-                        .scaleEffect(0.5)
-                    Image(solitaireGame.piles[6].isEmpty ? "":solitaireGame.piles[6][0].model).resizable()
-                        .scaledToFit()
-                        .scaleEffect(0.5)
-                } .padding(50)
+                            .scaleEffect(0.7)
+                            .onTapGesture {
+                                if !solitaireGame.piles[index].isEmpty {
+                                    if cardClicked{
+                                        solitaireGame.moveCard(selectedCard: selectedCard!, index: index)
+                                        cardClicked = false
+                                    }
+                                    else{
+                                        cardClicked = true
+                                        selectedCard = solitaireGame.piles[index][0]
+                                    }
+                                }
+                            }
+                    }
+                }
+                .padding(50)
+                
                 HStack{
                     Image(solitaireGame.sidePiles[0].isEmpty ? "hearts_1":solitaireGame.sidePiles[0][0].model).resizable()
                         .scaledToFit()
                         .opacity(solitaireGame.sidePiles[0].isEmpty ? 0.5 : 1.0)
-                        .scaleEffect(0.3)
+                        .scaleEffect(0.5)
+                        .onTapGesture {
+                                if cardClicked{
+                                    solitaireGame.addToStack(selectedCard: selectedCard!, index: 0)
+                                    cardClicked = false
+                                }
+                                else{
+                                    if !solitaireGame.sidePiles[0].isEmpty{
+                                        cardClicked = true
+                                        selectedCard = solitaireGame.sidePiles[0][0]
+                                    }
+                                }
+                        }
                     Image(solitaireGame.sidePiles[1].isEmpty ? "diamonds_1":solitaireGame.sidePiles[1][0].model).resizable()
                         .opacity(solitaireGame.sidePiles[1].isEmpty ? 0.5 : 1.0)
                         .scaledToFit()
-                        .scaleEffect(0.3)
+                        .scaleEffect(0.5)
+                        .onTapGesture {
+                                if cardClicked{
+                                    solitaireGame.addToStack(selectedCard: selectedCard!, index: 1)
+                                    cardClicked = false
+                                }
+                                else{
+                                    
+                                    if !solitaireGame.sidePiles[1].isEmpty{
+                                        cardClicked = true
+                                        selectedCard = solitaireGame.sidePiles[1][0]
+                                    }
+                                }
+                        }
                     Image(solitaireGame.sidePiles[2].isEmpty ? "clubs_1":solitaireGame.sidePiles[2][0].model).resizable()
                         .opacity(solitaireGame.sidePiles[2].isEmpty ? 0.5 : 1.0)
                         .scaledToFit()
-                        .scaleEffect(0.3)
+                        .scaleEffect(0.5)
+                        .onTapGesture {
+                                if cardClicked{
+                                    solitaireGame.addToStack(selectedCard: selectedCard!, index: 2)
+                                    cardClicked = false
+                                }
+                                else{
+                                    
+                                    if !solitaireGame.sidePiles[2].isEmpty{
+                                        cardClicked = true
+                                        selectedCard = solitaireGame.sidePiles[2][0]
+                                    }
+                                }
+                        }
                     Image(solitaireGame.sidePiles[3].isEmpty ? "spades_1":solitaireGame.sidePiles[3][0].model).resizable()
                         .opacity(solitaireGame.sidePiles[3].isEmpty ? 0.5 : 1.0)
                         .scaledToFit()
-                        .scaleEffect(0.3)
+                        .scaleEffect(0.5)
+                        .onTapGesture {
+                                if cardClicked{
+                                    solitaireGame.addToStack(selectedCard: selectedCard!, index: 3)
+                                    cardClicked = false
+                                }
+                                else{
+                                    
+                                    if !solitaireGame.sidePiles[3].isEmpty{
+                                        cardClicked = true
+                                        selectedCard = solitaireGame.sidePiles[3][0]
+                                    }
+                                }
+                        }
                     Spacer()
                     if let currentCard = solitaireGame.currentCard{
                         Image(currentCard.model)
                             .resizable()
                             .scaledToFit()
-                            .scaleEffect(0.3)
+                            .scaleEffect(0.5)
+                            .onTapGesture {
+                                cardClicked = true
+                                selectedCard = currentCard
+                            }
                     } else {
                         Image("")
                             .resizable()
                             .scaledToFit()
-                            .scaleEffect(0.3)
+                            .scaleEffect(0.5)
                     }
-                   
+                    
                     // The card image positioned at the bottom-right
                     Image(solitaireGame.playerDeck.endofDeck ? "refresh" :"back05")
                         .resizable()
                         .scaledToFit()
-                        .scaleEffect(0.3)
+                        .scaleEffect(0.5)
                         .frame(width: .infinity, height: .infinity, alignment: .bottomTrailing)
                         .onTapGesture {
                             if solitaireGame.playerDeck.cardPile.count > 0{
@@ -99,7 +154,7 @@ struct SolitaireView: View {
 struct SolitaireView_Previews: PreviewProvider {
     static var previews: some View {
         // Initialize the GameState and pass it via environmentObject
-        SolitaireView()
+        SolitaireView(cardClicked: false, selectedCard: nil)
             .environmentObject(SolitaireGame()) // Properly pass the StateObject here
             .previewInterfaceOrientation(.landscapeLeft)
     }

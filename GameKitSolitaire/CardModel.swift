@@ -12,6 +12,7 @@ struct card{
     var rank: Int
     var shown: Bool
     var model: String
+    var color: String
 }
 
 class deck {
@@ -34,10 +35,10 @@ class deck {
     
     func populate(){
         for count in 1...13{
-            cardPile.append(card(suit: "clubs", rank: count, shown: false, model: "clubs_\(count)" ))
-            cardPile.append(card(suit: "hearts", rank: count, shown: false, model: "hearts_\(count)"))
-            cardPile.append(card(suit: "diamonds", rank: count, shown: false, model: "diamonds_\(count)"))
-            cardPile.append(card(suit: "spades", rank: count, shown: false, model: "spades_\(count)"))
+            cardPile.append(card(suit: "clubs", rank: count, shown: false, model: "clubs_\(count)" ,color: "black"))
+            cardPile.append(card(suit: "hearts", rank: count, shown: false, model: "hearts_\(count)",color: "red"))
+            cardPile.append(card(suit: "diamonds", rank: count, shown: false, model: "diamonds_\(count)",color: "red"))
+            cardPile.append(card(suit: "spades", rank: count, shown: false, model: "spades_\(count)", color: "black"))
         }
     }
     
