@@ -51,8 +51,9 @@ struct ContentView: View {
                             .shadow(radius: 10)
                             .padding(.horizontal, 30)
                     }
-                    NavigationLink(destination: WarView().environmentObject(WarGame())) {
-                        Text("Play War")
+                    // Play Solitaire Button
+                    NavigationLink(destination: SolitaireView(cardClicked: false, selectedCard: nil).environmentObject(SolitaireGame())) {
+                        Text("Play Solitaire")
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
