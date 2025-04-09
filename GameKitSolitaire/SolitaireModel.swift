@@ -44,6 +44,12 @@ class SolitaireGame: ObservableObject{
     }
     
     func moveCard(selectedCard: card, index: Int){
+        if selectedCard.rank == 13 && piles[index].isEmpty {
+            piles[index].append(selectedCard)
+            removeFromPile()
+            return
+        }
+        
         let pileCard = piles[index][0]
         if pileCard.color != selectedCard.color && ((pileCard.rank - selectedCard.rank) == 1){
                 print("moved")

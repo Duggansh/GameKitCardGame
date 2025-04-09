@@ -28,7 +28,7 @@ struct SolitaireView: View {
                             .scaledToFit()
                             .scaleEffect(0.7)
                             .onTapGesture {
-                                if !solitaireGame.piles[index].isEmpty {
+                                if !solitaireGame.piles[index].isEmpty || selectedCard?.rank == 13 {
                                     if cardClicked{
                                         solitaireGame.moveCard(selectedCard: selectedCard!, index: index)
                                         cardClicked = false
@@ -110,14 +110,14 @@ struct SolitaireView: View {
                                 solitaireGame.addToStack(selectedCard: selectedCard!, index: 3)
                                 cardClicked = false
                             }
-                                else{
-                                    
-                                    if !solitaireGame.sidePiles[3].isEmpty{
-                                        cardClicked = true
-                                        selectedCard = solitaireGame.sidePiles[3][0]
-                                        solitaireGame.selectedPile = 11
-                                    }
+                            else{
+                                
+                                if !solitaireGame.sidePiles[3].isEmpty{
+                                    cardClicked = true
+                                    selectedCard = solitaireGame.sidePiles[3][0]
+                                    solitaireGame.selectedPile = 11
                                 }
+                            }
                         }
                     Spacer()
                     if solitaireGame.unusedPile.last != nil{
