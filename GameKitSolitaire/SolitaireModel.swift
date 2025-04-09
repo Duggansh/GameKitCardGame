@@ -10,11 +10,12 @@ import SwiftUI
 class SolitaireGame: ObservableObject{
     @Published var playerDeck: deck
     @Published var unusedPile: [card]
-    @Published var currentCard: card?
     @Published var piles: [[card]]
     @Published var gameOver: Bool
     @Published var sidePiles: [[card]]
     @Published var selectedPile: Int?
+    @Published var refreshTrigger = false
+
     
 
 
@@ -23,7 +24,6 @@ class SolitaireGame: ObservableObject{
         playerDeck = deck()
         piles = []
         gameOver = false
-        currentCard = nil
         unusedPile = []
         sidePiles = []
         selectedPile = nil
@@ -47,6 +47,8 @@ class SolitaireGame: ObservableObject{
         let pileCard = piles[index][0]
         if pileCard.color != selectedCard.color && ((pileCard.rank - selectedCard.rank) == 1){
                 print("moved")
+            piles[index].insert(selectedCard, at: 0)
+            removeFromPile()
             }else {
                 print("invalid move")
             }
@@ -57,42 +59,49 @@ class SolitaireGame: ObservableObject{
             let stackCard = sidePiles[index][0]
             if stackCard.suit == selectedCard.suit && ((selectedCard.rank - stackCard.rank) == 1){
                 sidePiles[index].insert(selectedCard, at: 0)
-                removeFromPile(card: selectedCard)
+                removeFromPile()
             }else {
                 print("invalid move")
             }
         } else if index == 0 && selectedCard.suit == "hearts"  && selectedCard.rank == 1{
             sidePiles[index].append(selectedCard)
-            removeFromPile(card: selectedCard)
+            removeFromPile()
         }else if index == 1 && selectedCard.suit == "diamonds"  && selectedCard.rank == 1{
             sidePiles[index].append(selectedCard)
-            removeFromPile(card: selectedCard)
+            removeFromPile()
         }else if index == 2 && selectedCard.suit == "clubs"  && selectedCard.rank == 1{
             sidePiles[index].append(selectedCard)
-            removeFromPile(card: selectedCard)
+            removeFromPile()
         }else if index == 3 && selectedCard.suit == "spades"  && selectedCard.rank == 1{
             sidePiles[index].append(selectedCard)
-            removeFromPile(card: selectedCard)
+            removeFromPile()
         }
     }
     
-    func removeFromPile(card: card){
+    func removeFromPile(){
         if selectedPile! > 7 {
             switch selectedPile {
             case 8:
+                print(sidePiles[0])
                 sidePiles[0].removeFirst()
+                refreshTrigger.toggle()
+                print(sidePiles[0])
                 break
             case 9:
                 sidePiles[1].removeFirst()
+                refreshTrigger.toggle()
                 break
             case 10:
                 sidePiles[2].removeFirst()
+                refreshTrigger.toggle()
                 break
             case 11:
                 sidePiles[3].removeFirst()
+                refreshTrigger.toggle()
                 break
             case 12:
                 unusedPile.removeLast()
+                refreshTrigger.toggle()
             default:
                 break
             }

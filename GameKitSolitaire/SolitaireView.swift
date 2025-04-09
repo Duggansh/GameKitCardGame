@@ -13,6 +13,7 @@ struct SolitaireView: View {
     @State var selectedCard: card?
     
     
+    
     var body: some View {
         ZStack {
             Image("felt-background")
@@ -22,7 +23,7 @@ struct SolitaireView: View {
             VStack {
                 HStack {
                     ForEach(0..<7) { index in
-                        Image(solitaireGame.piles[index].isEmpty ? "" : solitaireGame.piles[index][0].model)
+                        Image(solitaireGame.piles[index].isEmpty ? "" : solitaireGame.piles[index].first!.model)
                             .resizable()
                             .scaledToFit()
                             .scaleEffect(0.7)
@@ -44,11 +45,12 @@ struct SolitaireView: View {
                 .padding(50)
                 
                 HStack{
-                    Image(solitaireGame.sidePiles[0].isEmpty ? "hearts_1":solitaireGame.sidePiles[0][0].model).resizable()
+                    Image(solitaireGame.sidePiles[0].isEmpty ? "hearts_1":solitaireGame.sidePiles[0].first!.model).resizable()
                         .scaledToFit()
                         .opacity(solitaireGame.sidePiles[0].isEmpty ? 0.5 : 1.0)
                         .scaleEffect(0.5)
                         .onTapGesture {
+                            print("Tapped on sidePiles[0], contents: \(solitaireGame.sidePiles[0])")
                                 if cardClicked{
                                     solitaireGame.addToStack(selectedCard: selectedCard!, index: 0)
                                     cardClicked = false
@@ -61,11 +63,12 @@ struct SolitaireView: View {
                                     }
                                 }
                         }
-                    Image(solitaireGame.sidePiles[1].isEmpty ? "diamonds_1":solitaireGame.sidePiles[1][0].model).resizable()
+                    Image(solitaireGame.sidePiles[1].isEmpty ? "diamonds_1":solitaireGame.sidePiles[1].first!.model).resizable()
                         .opacity(solitaireGame.sidePiles[1].isEmpty ? 0.5 : 1.0)
                         .scaledToFit()
                         .scaleEffect(0.5)
                         .onTapGesture {
+                            print("Tapped on sidePiles[0], contents: \(solitaireGame.sidePiles[1])")
                                 if cardClicked{
                                     solitaireGame.addToStack(selectedCard: selectedCard!, index: 1)
                                     cardClicked = false
@@ -79,7 +82,7 @@ struct SolitaireView: View {
                                     }
                                 }
                         }
-                    Image(solitaireGame.sidePiles[2].isEmpty ? "clubs_1":solitaireGame.sidePiles[2][0].model).resizable()
+                    Image(solitaireGame.sidePiles[2].isEmpty ? "clubs_1":solitaireGame.sidePiles[2].first!.model).resizable()
                         .opacity(solitaireGame.sidePiles[2].isEmpty ? 0.5 : 1.0)
                         .scaledToFit()
                         .scaleEffect(0.5)
@@ -97,11 +100,12 @@ struct SolitaireView: View {
                                     }
                                 }
                         }
-                    Image(solitaireGame.sidePiles[3].isEmpty ? "spades_1":solitaireGame.sidePiles[3][0].model).resizable()
+                    Image(solitaireGame.sidePiles[3].isEmpty ? "spades_1":solitaireGame.sidePiles[3].first!.model).resizable()
                         .opacity(solitaireGame.sidePiles[3].isEmpty ? 0.5 : 1.0)
                         .scaledToFit()
                         .scaleEffect(0.5)
                         .onTapGesture {
+                            
                             if cardClicked{
                                 solitaireGame.addToStack(selectedCard: selectedCard!, index: 3)
                                 cardClicked = false
@@ -116,14 +120,14 @@ struct SolitaireView: View {
                                 }
                         }
                     Spacer()
-                    if let currentCard = solitaireGame.currentCard{
-                        Image(currentCard.model)
+                    if solitaireGame.unusedPile.last != nil{
+                        Image(solitaireGame.unusedPile.last!.model)
                             .resizable()
                             .scaledToFit()
                             .scaleEffect(0.5)
                             .onTapGesture {
                                 cardClicked = true
-                                selectedCard = currentCard
+                                selectedCard = solitaireGame.unusedPile.last
                                 solitaireGame.selectedPile = 12
                             }
                     } else {
@@ -140,15 +144,13 @@ struct SolitaireView: View {
                         .scaleEffect(0.5)
                         .frame(width: .infinity, height: .infinity, alignment: .bottomTrailing)
                         .onTapGesture {
-                            if solitaireGame.playerDeck.cardPile.count > 0{
-                                solitaireGame.currentCard = solitaireGame.playerDeck.draw()
-                                solitaireGame.unusedPile.append(solitaireGame.currentCard!)
+                            if !solitaireGame.playerDeck.endofDeck{
+                                solitaireGame.unusedPile.append(solitaireGame.playerDeck.draw()!)
                                 if solitaireGame.playerDeck.cardPile.count == 0{
                                     solitaireGame.playerDeck.endofDeck = true
                                 }
                             } else {
                                 solitaireGame.playerDeck.cardPile = solitaireGame.unusedPile
-                                solitaireGame.currentCard = nil
                                 solitaireGame.playerDeck.endofDeck = false
                             }
                         }
