@@ -144,6 +144,7 @@ struct SolitaireView: View {
                         .scaleEffect(0.5)
                         .frame(width: .infinity, height: .infinity, alignment: .bottomTrailing)
                         .onTapGesture {
+                            print(solitaireGame.playerDeck.cardPile.count)
                             if !solitaireGame.playerDeck.endofDeck{
                                 solitaireGame.unusedPile.append(solitaireGame.playerDeck.draw()!)
                                 if solitaireGame.playerDeck.cardPile.count == 0{
@@ -151,6 +152,7 @@ struct SolitaireView: View {
                                 }
                             } else {
                                 solitaireGame.playerDeck.cardPile = solitaireGame.unusedPile
+                                solitaireGame.unusedPile.removeAll()
                                 solitaireGame.playerDeck.endofDeck = false
                             }
                         }
