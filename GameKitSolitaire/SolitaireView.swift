@@ -12,6 +12,7 @@ struct SolitaireView: View {
     @State var cardClicked: Bool
     @State var selectedCard: card?
     
+    
     var body: some View {
         ZStack {
             Image("felt-background")
@@ -34,6 +35,7 @@ struct SolitaireView: View {
                                     else{
                                         cardClicked = true
                                         selectedCard = solitaireGame.piles[index][0]
+                                        solitaireGame.selectedPile = index
                                     }
                                 }
                             }
@@ -55,6 +57,7 @@ struct SolitaireView: View {
                                     if !solitaireGame.sidePiles[0].isEmpty{
                                         cardClicked = true
                                         selectedCard = solitaireGame.sidePiles[0][0]
+                                        solitaireGame.selectedPile = 8
                                     }
                                 }
                         }
@@ -72,6 +75,7 @@ struct SolitaireView: View {
                                     if !solitaireGame.sidePiles[1].isEmpty{
                                         cardClicked = true
                                         selectedCard = solitaireGame.sidePiles[1][0]
+                                        solitaireGame.selectedPile = 9
                                     }
                                 }
                         }
@@ -89,6 +93,7 @@ struct SolitaireView: View {
                                     if !solitaireGame.sidePiles[2].isEmpty{
                                         cardClicked = true
                                         selectedCard = solitaireGame.sidePiles[2][0]
+                                        solitaireGame.selectedPile = 10
                                     }
                                 }
                         }
@@ -97,15 +102,16 @@ struct SolitaireView: View {
                         .scaledToFit()
                         .scaleEffect(0.5)
                         .onTapGesture {
-                                if cardClicked{
-                                    solitaireGame.addToStack(selectedCard: selectedCard!, index: 3)
-                                    cardClicked = false
-                                }
+                            if cardClicked{
+                                solitaireGame.addToStack(selectedCard: selectedCard!, index: 3)
+                                cardClicked = false
+                            }
                                 else{
                                     
                                     if !solitaireGame.sidePiles[3].isEmpty{
                                         cardClicked = true
                                         selectedCard = solitaireGame.sidePiles[3][0]
+                                        solitaireGame.selectedPile = 11
                                     }
                                 }
                         }
@@ -118,6 +124,7 @@ struct SolitaireView: View {
                             .onTapGesture {
                                 cardClicked = true
                                 selectedCard = currentCard
+                                solitaireGame.selectedPile = 12
                             }
                     } else {
                         Image("")

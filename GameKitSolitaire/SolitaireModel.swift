@@ -14,6 +14,7 @@ class SolitaireGame: ObservableObject{
     @Published var piles: [[card]]
     @Published var gameOver: Bool
     @Published var sidePiles: [[card]]
+    @Published var selectedPile: Int?
     
 
 
@@ -25,6 +26,7 @@ class SolitaireGame: ObservableObject{
         currentCard = nil
         unusedPile = []
         sidePiles = []
+        selectedPile = nil
         for _ in 1...4{
             sidePiles.append([])
         }
@@ -75,17 +77,32 @@ class SolitaireGame: ObservableObject{
     }
     
     func removeFromPile(card: card){
-        if card.model == unusedPile[unusedPile.count-1].model{
-            unusedPile.removeLast()
-        } else {
-            for index in 1...7{
-                if card.model == piles[index-1][0].model{
-                    piles[index].removeFirst()
-                }
+        if selectedPile! > 7 {
+            switch selectedPile {
+            case 8:
+                sidePiles[0].removeFirst()
+                break
+            case 9:
+                sidePiles[1].removeFirst()
+                break
+            case 10:
+                sidePiles[2].removeFirst()
+                break
+            case 11:
+                sidePiles[3].removeFirst()
+                break
+            case 12:
+                unusedPile.removeLast()
+            default:
+                break
             }
+        } else {
+            piles[selectedPile!].removeFirst()
         }
 
+
     }
+    
     func resetGame(){
 
     }
