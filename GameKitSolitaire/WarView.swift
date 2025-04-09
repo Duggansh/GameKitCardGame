@@ -30,8 +30,10 @@ struct WarView: View {
                     .scaleEffect(0.8)
                     .offset(y: cardPosition) // Move card based on position state
                     .animation(isAnimating && !moveComplete ? .easeInOut(duration: 1) : nil, value: cardPosition) // Apply movement animation
+                    .zIndex(0)
                 
                 Text(warGame.centerString).foregroundColor(.yellow)
+                    .zIndex(1)
                 
                 // Player 1 Card: Flip animation and move
                 Image(warGame.p1Card == nil || !flipComplete ? "" : warGame.p1Card!.model) // Show image after flip
@@ -40,6 +42,7 @@ struct WarView: View {
                     .scaleEffect(0.8)
                     .offset(y: cardPosition) // Move card based on position state
                     .animation(isAnimating && !moveComplete ? .easeInOut(duration: 1) : nil, value: cardPosition) // Apply movement animation
+                    .zIndex(0)
                 
                 HStack {
                     Text("Cards left: \(warGame.playerOneDeck.cardPile.count)").foregroundColor(.yellow)
