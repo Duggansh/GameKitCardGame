@@ -31,13 +31,14 @@ class Crazy8Game: ObservableObject {
     }
     
     func drawCardForPlayer(playerIndex: Int) {
-        if playerIndex != playerTurn {
+        if playerTurn != 0 {
             print("It is not your turn!")
             return
         }
         
         if let drawnCard = drawPile.draw() {
             playerHands[playerIndex].append(drawnCard)
+            nextTurn()
         }
         else {
             print("Cannot draw card")
