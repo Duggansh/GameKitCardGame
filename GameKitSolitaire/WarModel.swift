@@ -7,25 +7,25 @@
 
 import SwiftUI
 
-class WarGame: ObservableObject{
-    @Published var playerOneDeck: deck
-    @Published var playerTwoDeck: deck
-    @Published var p1Card: card?
-    @Published var p2Card: card?
+class WarGame: ObservableObject {
+    @Published var playerOneDeck: [Card]
+    @Published var playerTwoDeck: [Card]
+    @Published var p1Card: Card?
+    @Published var p2Card: Card?
     @Published var centerString: String
-    @Published var cardsForGrabs: [card]
+    @Published var cardsForGrabs: [Card]
     @Published var gameOver: Bool
     
-    enum drawOutcome{
+    enum drawOutcome {
         case p1
         case p2
         case tie
     }
     
-    init(){
-        let deck: deck = deck()
+    init() {
+        let deck: Deck = Deck()
         deck.populate()
-        let playerDecks = deck.deal(PlayerCount: 2, cardCount: 26)
+        let playerDecks = deck.deal(playerCount: 2, cardCount: 26)
         playerOneDeck = playerDecks[0]
         playerTwoDeck = playerDecks[1]
         centerString = ""
@@ -35,10 +35,10 @@ class WarGame: ObservableObject{
         gameOver = false
     }
     
-    func resetGame(){
-        let deck: deck = deck()
+    func resetGame() {
+        let deck: Deck = Deck()
         deck.populate()
-        let playerDecks = deck.deal(PlayerCount: 2, cardCount: 26)
+        let playerDecks = deck.deal(playerCount: 2, cardCount: 26)
         playerOneDeck = playerDecks[0]
         playerTwoDeck = playerDecks[1]
         centerString = ""
@@ -48,23 +48,17 @@ class WarGame: ObservableObject{
         gameOver = false
     }
     
-    func compareCards() -> drawOutcome{
+    func compareCards() -> drawOutcome {
         cardsForGrabs.append(p1Card!)
         cardsForGrabs.append(p2Card!)
-        if p1Card!.rank == 1{
-            p1Card!.rank = 14
-        }
-        if p2Card!.rank == 1{
-            p2Card!.rank = 14
-        }
-        if p1Card!.rank > p2Card!.rank{
+        if p1Card! > p2Card! {
             centerString = "Your card is higher, you win the cards!"
-            playerOneDeck.cardPile.append(contentsOf: cardsForGrabs)
+            playerOneDeck.append(contentsOf: cardsForGrabs)
             cardsForGrabs.removeAll()
             return drawOutcome.p1
-        } else if p2Card!.rank > p1Card!.rank{
+        } else if p2Card! > p1Card! {
             centerString = "Your card is lower, you lose the cards!"
-            playerTwoDeck.cardPile.append(contentsOf: cardsForGrabs)
+            playerTwoDeck.append(contentsOf: cardsForGrabs)
             cardsForGrabs.removeAll()
             return drawOutcome.p2
         } else{

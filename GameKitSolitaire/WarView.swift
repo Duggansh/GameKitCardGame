@@ -17,10 +17,10 @@ struct WarView: View {
 
             VStack {
                 HStack {
-                    Image(warGame.playerTwoDeck.cardPile.count > 0 ? "back07" : "").resizable()
+                    Image(warGame.playerTwoDeck.count > 0 ? "back07" : "").resizable()
                         .scaledToFit()
                         .scaleEffect(0.8)
-                    Text("Cards left: \(warGame.playerTwoDeck.cardPile.count)").foregroundColor(.yellow)
+                    Text("Cards left: \(warGame.playerTwoDeck.count)").foregroundColor(.yellow)
                 }
                 
                 // Player 2 Card: Flip animation and move
@@ -45,18 +45,18 @@ struct WarView: View {
                     .zIndex(0)
                 
                 HStack {
-                    Text("Cards left: \(warGame.playerOneDeck.cardPile.count)").foregroundColor(.yellow)
-                    Image(warGame.playerOneDeck.cardPile.count > 0 ? "back05" : "").resizable()
+                    Text("Cards left: \(warGame.playerOneDeck.count)").foregroundColor(.yellow)
+                    Image(warGame.playerOneDeck.count > 0 ? "back05" : "").resizable()
                         .scaledToFit()
                         .scaleEffect(0.8)
                 }
                 .onTapGesture {
                     if(!warGame.gameOver){
                         if !isAnimating { // Only allow taps when not animating
-                            if warGame.playerOneDeck.cardPile.count > 0 {
-                                warGame.p1Card = warGame.playerOneDeck.draw()!
-                                if warGame.playerTwoDeck.cardPile.count > 0 {
-                                    warGame.p2Card = warGame.playerTwoDeck.draw()!
+                            if warGame.playerOneDeck.count > 0 {
+                                warGame.p1Card = warGame.playerOneDeck.removeFirst()
+                                if warGame.playerTwoDeck.count > 0 {
+                                    warGame.p2Card = warGame.playerTwoDeck.removeFirst()
                                     let outcome = warGame.compareCards()
                                     
                                     // Immediately show the image and start the flip
@@ -95,10 +95,10 @@ struct WarView: View {
                                     }
                                     
                                     // Update the center string based on the game state
-                                    if warGame.playerTwoDeck.cardPile.isEmpty {
+                                    if warGame.playerTwoDeck.isEmpty {
                                         warGame.gameOver = true
                                         warGame.centerString = "GAME OVER! You win!"
-                                    } else if warGame.playerOneDeck.cardPile.isEmpty {
+                                    } else if warGame.playerOneDeck.isEmpty {
                                         warGame.gameOver = true
                                         warGame.centerString = "GAME OVER! You lose!"
                                     }

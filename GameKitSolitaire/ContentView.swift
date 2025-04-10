@@ -51,25 +51,6 @@ struct ContentView: View {
                             .shadow(radius: 10)
                             .padding(.horizontal, 30)
                     }
-                    // Play Solitaire Button
-                    NavigationLink(destination: SolitaireView(cardClicked: false, selectedCard: nil).environmentObject(SolitaireGame())) {
-                        Text("Play Solitaire")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [Color.red, Color.black]),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .cornerRadius(12)
-                            .shadow(radius: 10)
-                            .padding(.horizontal, 30)
-                    }
                     NavigationLink(destination: TicTacToeView().environmentObject(TicTacToeGame())) {
                         Text("Play Tic Tic Toe")
                             .font(.title2)
@@ -88,7 +69,6 @@ struct ContentView: View {
                             .shadow(radius: 10)
                             .padding(.horizontal, 30)
                     }
-                    
                     Spacer()
                 }
                 .padding()
