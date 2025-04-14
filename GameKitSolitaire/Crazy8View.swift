@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct Crazy8View: View {
-    @ObservedObject var game: Crazy8Game
+    @EnvironmentObject var game: Crazy8Game
     @State private var selectedCard: Card?
     
     // Helper function to get the image for the card model
@@ -94,6 +94,6 @@ struct Crazy8View: View {
 
 struct Crazy8View_Previews: PreviewProvider {
     static var previews: some View {
-        Crazy8View(game: Crazy8Game(numPlayers: 4))
+        Crazy8View().environmentObject(Crazy8Game(numPlayers: 4))
     }
 }

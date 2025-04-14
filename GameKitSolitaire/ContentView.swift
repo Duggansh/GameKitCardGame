@@ -69,6 +69,24 @@ struct ContentView: View {
                             .shadow(radius: 10)
                             .padding(.horizontal, 30)
                     }
+                    NavigationLink(destination: Crazy8View().environmentObject(Crazy8Game(numPlayers: 4))) {
+                        Text("Play Crazy 8's")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.red, Color.black]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .cornerRadius(12)
+                            .shadow(radius: 10)
+                            .padding(.horizontal, 30)
+                    }
                     Spacer()
                 }
                 .padding()
