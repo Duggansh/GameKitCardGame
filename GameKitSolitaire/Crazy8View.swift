@@ -17,6 +17,13 @@ struct Crazy8View: View {
                 .ignoresSafeArea()
             
             VStack {
+                ForEach(1..<game.playerHands.count, id: \.self) { i in
+                    Text("Bot \(i): \(game.playerHands[i].count) cards")
+                        .foregroundColor(.yellow)
+                }
+                Spacer()
+                Text(game.message)
+                    .foregroundColor(.yellow)
                 HStack {
                     Button(action: {
                         game.drawCardForPlayer(playerIndex: game.playerTurn)
@@ -29,6 +36,7 @@ struct Crazy8View: View {
                         .scaledToFit()
                         .frame(width: 80, height: 120)
                 }
+                Spacer()
                 ScrollView(.horizontal) {
                     HStack {
                         ForEach(game.playerHands[0], id: \.self) { card in
@@ -50,6 +58,15 @@ struct Crazy8View: View {
                     }
                 }
                 .defaultScrollAnchor(.center)
+                Button(action: {
+                    if selectedCard != nil {
+                        game.playCard(playerIndex: 0, card: selectedCard!)
+                    }
+                }) {
+                    Text("Play Card")
+                        .foregroundStyle(.yellow)
+                }
+                Spacer()
             }
         }
     }

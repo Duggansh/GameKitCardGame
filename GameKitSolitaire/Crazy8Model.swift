@@ -13,6 +13,7 @@ class Crazy8Game: ObservableObject {
     @Published var drawPile: Deck
     @Published var discardPile: [Card] = []
     @Published var playerHands: [[Card]] = []
+    @Published var message: String = "Your Turn!"
     
     init(numPlayers: Int) {
         self.numPlayers = numPlayers
@@ -32,16 +33,17 @@ class Crazy8Game: ObservableObject {
     
     func drawCardForPlayer(playerIndex: Int) {
         if playerTurn != 0 {
-            print("It is not your turn!")
+            message = "It is not your turn!"
             return
         }
         
         if let drawnCard = drawPile.draw() {
             playerHands[playerIndex].append(drawnCard)
+            message = "You drew a card"
             nextTurn()
         }
         else {
-            print("Cannot draw card")
+            message = "Cannot draw card"
         }
     }
     
@@ -54,7 +56,7 @@ class Crazy8Game: ObservableObject {
             nextTurn()
         }
         else {
-            print("Invalid play!")
+            message = "Invalid Play!"
         }
     }
     
@@ -71,14 +73,14 @@ class Crazy8Game: ObservableObject {
                 discardPile.append(card)
 //                playCard(playerIndex: playerTurn, card: card)
                 validCardFound = true
-                print("Bot \(playerTurn) Played \(card.rank) of \(card.suit)")
+                message = "Bot \(playerTurn) Played \(card.rank) of \(card.suit)"
                 break
             }
         }
         
         if !validCardFound {
             drawCardForPlayer(playerIndex: playerTurn)
-            print("Bot \(playerTurn) drew a card.")
+            message = "Bot \(playerTurn) drew a card."
         }
         
         nextTurn()
@@ -92,6 +94,10 @@ class Crazy8Game: ObservableObject {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 self.botPlayTurn()  // Pass the function as a closure
             }
+        }
+        
+        if playerTurn == 0 {
+            message = "Your Turn!"
         }
     }
 }
