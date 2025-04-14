@@ -38,6 +38,24 @@ struct Crazy8View: View {
                         .frame(width: 80, height: 120)
                 }
                 Spacer()
+                Group {
+                    if game.roundIsOver {
+                        Button(action: {
+                            game.resetGame()
+                        }) {
+                            Text("Play Again")
+                                .foregroundColor(.black)
+                                .fontWeight(.bold)
+                                .padding(.horizontal, 30)
+                                .padding(.vertical, 12)
+                                .background(Color.red)
+                                .cornerRadius(10)
+                                .shadow(radius: 10)
+                        }
+                    } else {
+                        Color.clear.frame(height: 44)
+                    }
+                }
                 ScrollView(.horizontal) {
                     HStack {
                         ForEach(game.playerHands[0], id: \.self) { card in
