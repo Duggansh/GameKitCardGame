@@ -3,6 +3,7 @@ import SwiftUI
 struct Crazy8View: View {
     @EnvironmentObject var game: Crazy8Game
     @State private var selectedCard: Card?
+    @Environment(\.dismiss) private var dismiss // Use dismiss for NavigationStack
     
     // Helper function to get the image for the card model
     func getCardImage(for card: Card) -> String {
@@ -69,6 +70,21 @@ struct Crazy8View: View {
                 Spacer()
             }
         }
+        .navigationBarBackButtonHidden(true) // Hide the default back button
+        .navigationBarItems(leading:
+            Button(action: {
+                dismiss() // Use dismiss() method from Environment to pop the view
+            }) {
+                HStack {
+                    Image(systemName: "arrow.left.circle.fill") // Custom back icon
+                        .font(.title)
+                        .foregroundColor(.white)
+                    Text("Back")
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                }
+            }
+        )
     }
 }
 
