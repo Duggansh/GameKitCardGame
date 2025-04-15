@@ -76,7 +76,7 @@ struct Crazy8View: View {
                         }
                     }
                 }
-                .defaultScrollAnchor(.center)
+                .frame(width: 400.0, height: 100.0, alignment: .center)
                 Button(action: {
                     if selectedCard != nil {
                         game.playCard(playerIndex: 0, card: selectedCard!)
