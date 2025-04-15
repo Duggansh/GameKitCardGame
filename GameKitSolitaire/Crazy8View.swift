@@ -27,7 +27,12 @@ struct Crazy8View: View {
                     .foregroundColor(.yellow)
                 HStack {
                     Button(action: {
-                        game.drawCardForPlayer(playerIndex: game.playerTurn)
+                        if game.playerTurn != 0 {
+                            game.message = "It is not your turn!"
+                        }
+                        else {
+                            game.drawCard(playerIndex: game.playerTurn, numCards: 1)
+                        }
                     }) {
                         Image("back05").resizable()
                             .scaledToFit()

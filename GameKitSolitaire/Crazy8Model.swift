@@ -44,20 +44,27 @@ class Crazy8Game: ObservableObject {
         startGame()
     }
     
-    func drawCardForPlayer(playerIndex: Int) {
+    func drawCard(playerIndex: Int, numCards: Int) {
+        var drawSuccessful: Bool = false
         if !roundIsOver {
-            if playerTurn != 0 {
-                message = "It is not your turn!"
-                return
+            for _ in 0..<numCards {
+                if let drawnCard = drawPile.draw() {
+                    playerHands[playerIndex].append(drawnCard)
+                    
+                    if playerIndex == 0 {
+                        message = "You drew a card"
+                    }
+                    else {
+                        message = "Bot \(playerTurn) drew a card."
+                    }
+                    drawSuccessful = true
+                }
+                else {
+                    message = "Cannot draw card"
+                }
             }
-            
-            if let drawnCard = drawPile.draw() {
-                playerHands[playerIndex].append(drawnCard)
-                message = "You drew a card"
+            if drawSuccessful {
                 nextTurn()
-            }
-            else {
-                message = "Cannot draw card"
             }
         }
     }
@@ -77,6 +84,9 @@ class Crazy8Game: ObservableObject {
                 
                 if card.rank == "8" {
                     message = "You're feeling crazy!"
+                }
+                else if card.rank == "2" {
+                    message = "You played a draw 2!"
                 }
                 else {
                     message = "You played \(card.rank) of \(card.suit)"
@@ -99,7 +109,12 @@ class Crazy8Game: ObservableObject {
                 
                 if card.suit == discardPile.last?.suit || card.rank == discardPile.last?.rank {
                     validCardFound = true
-                    message = "Bot \(playerTurn) played \(card.rank) of \(card.suit)"
+                    if card.rank == "2" {
+                        message = "Bot \(playerTurn) played a draw 2!"
+                    }
+                    else {
+                        message = "Bot \(playerTurn) played \(card.rank) of \(card.suit)"
+                    }
                 }
                 else if card.rank == "8" {
                     validCardFound = true
@@ -115,16 +130,19 @@ class Crazy8Game: ObservableObject {
             }
             
             if !validCardFound {
-                if let drawnCard = drawPile.draw() {
-                    playerHands[playerTurn].append(drawnCard)
-                    message = "Bot \(playerTurn) drew a card."
-                }
-                else {
-                    message = "Cannot draw card"
-                }
+//                if let drawnCard = drawPile.draw() {
+//                    playerHands[playerTurn].append(drawnCard)
+//                    message = "Bot \(playerTurn) drew a card."
+//                    
+//                }
+//                else {
+//                    message = "Cannot draw card"
+//                }
+                drawCard(playerIndex: playerTurn, numCards: 1)
             }
-            
-            nextTurn()
+            else {
+                nextTurn()
+            }
         }
     }
     
@@ -132,6 +150,12 @@ class Crazy8Game: ObservableObject {
         checkRoundStatus()
         
         playerTurn = (playerTurn + 1) % numPlayers
+        
+        print(discardPile.last!)
+        
+        if discardPile.last!.rank == "2" {
+            print("2 2 2")
+        }
         
         // let bots play after the player's turn
         if playerTurn >= 1 {
