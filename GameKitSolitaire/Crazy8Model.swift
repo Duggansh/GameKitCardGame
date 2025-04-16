@@ -15,6 +15,7 @@ class Crazy8Game: ObservableObject {
     @Published var playerHands: [[Card]] = []
     @Published var message: String
     @Published var roundIsOver: Bool
+    @Published var prevTwo: Bool = false
     
     init(numPlayers: Int) {
         self.roundIsOver = false
@@ -52,10 +53,10 @@ class Crazy8Game: ObservableObject {
                     playerHands[playerIndex].append(drawnCard)
                     
                     if playerIndex == 0 {
-                        message = "You drew a card"
+                        message = "You drew \(numCards) card(s)"
                     }
                     else {
-                        message = "Bot \(playerTurn) drew a card."
+                        message = "Bot \(playerTurn) drew \(numCards) card(s)."
                     }
                     drawSuccessful = true
                 }
@@ -87,6 +88,7 @@ class Crazy8Game: ObservableObject {
                 }
                 else if card.rank == "2" {
                     message = "You played a draw 2!"
+                    prevTwo = true
                 }
                 else {
                     message = "You played \(card.rank) of \(card.suit)"
@@ -111,6 +113,7 @@ class Crazy8Game: ObservableObject {
                     validCardFound = true
                     if card.rank == "2" {
                         message = "Bot \(playerTurn) played a draw 2!"
+                        prevTwo = true
                     }
                     else {
                         message = "Bot \(playerTurn) played \(card.rank) of \(card.suit)"
@@ -153,8 +156,11 @@ class Crazy8Game: ObservableObject {
         
         print(discardPile.last!)
         
-        if discardPile.last!.rank == "2" {
+        if discardPile.last!.rank == "2" && prevTwo == true{
             print("2 2 2")
+            prevTwo = false
+            drawCard(playerIndex: playerTurn, numCards: 2)
+            return
         }
         
         // let bots play after the player's turn

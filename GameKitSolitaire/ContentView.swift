@@ -1,14 +1,10 @@
-//
-//  ContentView.swift
-//  GameKitSolitaire
-//
-//  Created by Shane M. Duggan on 3/25/25.
-//
-
 import SwiftUI
 import GameKit
 
 struct ContentView: View {
+    
+    @State private var isAuthenticated = false // Track authentication status
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -51,8 +47,9 @@ struct ContentView: View {
                             .shadow(radius: 10)
                             .padding(.horizontal, 30)
                     }
+                    
                     NavigationLink(destination: TicTacToeView().environmentObject(TicTacToeGame())) {
-                        Text("Play Tic Tic Toe")
+                        Text("Play Tic Tac Toe")
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -69,6 +66,7 @@ struct ContentView: View {
                             .shadow(radius: 10)
                             .padding(.horizontal, 30)
                     }
+                    
                     NavigationLink(destination: Crazy8View().environmentObject(Crazy8Game(numPlayers: 4))) {
                         Text("Play Crazy 8's")
                             .font(.title2)
@@ -92,12 +90,39 @@ struct ContentView: View {
                 .padding()
             }
         }
+        .onAppear {
+            authenticatePlayer()
+        }
+    }
+
+    // Authenticate the player with GameKit
+    func authenticatePlayer() {
+        GKLocalPlayer.local.authenticateHandler = { (viewController, error) in
+            if let vc = viewController {
+                // If authentication requires presenting a view controller, show it
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                    if let rootVC = windowScene.windows.first?.rootViewController {
+                        rootVC.present(vc, animated: true, completion: nil)
+                    }
+                }
+            } else if GKLocalPlayer.local.isAuthenticated {
+                // Player is authenticated, ready to use Game Center features
+                self.isAuthenticated = true
+                print("Player is authenticated")
+            } else {
+                // Handle authentication failure
+                self.isAuthenticated = false
+                print("Player authentication failed: \(error?.localizedDescription ?? "Unknown error")")
+            }
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-             // Initialize and pass the environment object
+            .environmentObject(WarGame())  // Add your environment objects for testing
+            .environmentObject(TicTacToeGame())  // Add environment objects for TicTacToe
+            .environmentObject(Crazy8Game(numPlayers: 4))  // Add environment object for Crazy 8
     }
 }
