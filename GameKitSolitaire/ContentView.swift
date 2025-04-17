@@ -25,7 +25,7 @@ struct ContentView: View {
                         .foregroundColor(.white)
                         .shadow(radius: 10)
                         .padding(.top, 50) // Add some padding from the top
-
+                    
                     Spacer()
                     
                     // Play War Button

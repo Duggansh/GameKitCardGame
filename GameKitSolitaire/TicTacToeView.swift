@@ -51,10 +51,7 @@ struct TicTacToeView: View {
                 Group {
                     if ticTacToe.gameEnd {
                         Button(action: {
-                            ticTacToe.board = Array(repeating: Array(repeating: "", count: 3), count: 3)
-                            ticTacToe.infoText = "Player 1's Turn!"
-                            ticTacToe.xTurn = true
-                            ticTacToe.gameEnd = false
+                            ticTacToe.resetGame()
                         }) {
                             Text("Play Again")
                                 .foregroundColor(.black)

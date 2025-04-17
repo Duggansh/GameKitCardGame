@@ -52,7 +52,10 @@ class TicTacToeGame: ObservableObject{
 
     
     func resetGame(){
-
+        board = Array(repeating: Array(repeating: "", count: 3), count: 3)
+        infoText = "Player 1's Turn!"
+        xTurn = true
+        gameEnd = false
     }
     
 }
