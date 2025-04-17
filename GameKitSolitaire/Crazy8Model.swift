@@ -15,7 +15,8 @@ class Crazy8Game: ObservableObject {
     @Published var playerHands: [[Card]] = []
     @Published var message: String
     @Published var roundIsOver: Bool
-    @Published var prevTwo: Bool = false
+    @Published var eventCard: Bool = false
+    @Published var reversed: Bool = false
     
     init(numPlayers: Int) {
         self.roundIsOver = false
@@ -88,7 +89,19 @@ class Crazy8Game: ObservableObject {
                 }
                 else if card.rank == "2" {
                     message = "You played a draw 2!"
-                    prevTwo = true
+                    eventCard = true
+                }
+                else if card.rank == "J" {
+                    message = "You played a skip!"
+                    eventCard = true
+                }
+                else if card.rank == "Q" && card.suit == "spades" {
+                    message = "You played the Queen of Spades!"
+                    eventCard = true
+                }
+                else if card.rank == "K" {
+                    message = "You played a reverse!"
+                    reversed = !reversed
                 }
                 else {
                     message = "You played \(card.rank) of \(card.suit)"
@@ -113,7 +126,19 @@ class Crazy8Game: ObservableObject {
                     validCardFound = true
                     if card.rank == "2" {
                         message = "Bot \(playerTurn) played a draw 2!"
-                        prevTwo = true
+                        eventCard = true
+                    }
+                    else if card.rank == "J" {
+                        message = "Bot \(playerTurn) played a skip!"
+                        eventCard = true
+                    }
+                    else if card.rank == "Q" && card.suit == "spades" {
+                        message = "Bot \(playerTurn) played the Queen of Spades!"
+                        eventCard = true
+                    }
+                    else if card.rank == "K" {
+                        message = "Bot \(playerTurn) played a reverse!"
+                        reversed = !reversed
                     }
                     else {
                         message = "Bot \(playerTurn) played \(card.rank) of \(card.suit)"
@@ -152,17 +177,27 @@ class Crazy8Game: ObservableObject {
     func nextTurn() {
         checkRoundStatus()
         
-        playerTurn = (playerTurn + 1) % numPlayers
+        playerTurn = reversed ? (playerTurn + 3) % numPlayers : (playerTurn + 1) % numPlayers
         
         print(discardPile.last!)
         
-        if discardPile.last!.rank == "2" && prevTwo == true{
-            print("2 2 2")
-            prevTwo = false
-            drawCard(playerIndex: playerTurn, numCards: 2)
-            return
+        if eventCard{
+            let lastCard = discardPile.last!.rank
+            if lastCard == "2"{
+                eventCard = false
+                drawCard(playerIndex: playerTurn, numCards: 2)
+                return
+            }
+            else if lastCard == "J"{
+                eventCard = false
+                playerTurn = reversed ? (playerTurn + 3) % numPlayers : (playerTurn + 1) % numPlayers
+            }
+            else if lastCard == "Q"{
+                eventCard = false
+                drawCard(playerIndex: playerTurn, numCards: 5)
+                return
+            }
         }
-        
         // let bots play after the player's turn
         if playerTurn >= 1 {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {

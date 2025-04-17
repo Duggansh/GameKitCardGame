@@ -116,3 +116,4 @@ struct Crazy8View_Previews: PreviewProvider {
         Crazy8View().environmentObject(Crazy8Game(numPlayers: 4))
     }
 }
+
